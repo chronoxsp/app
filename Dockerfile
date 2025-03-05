@@ -1,22 +1,22 @@
-# Usa una imagen oficial de Maven y Java 17
-FROM maven:3.8.6-openjdk-17 AS build
+# Usa una imagen de Maven con Java 17
+FROM maven:3.9.4-eclipse-temurin-17 AS build
 WORKDIR /app
 
 # Copia los archivos del proyecto
 COPY . .
 
-# Construye la aplicación
+# Compila la aplicación
 RUN mvn clean package -DskipTests
 
-# Usa una imagen de Java más ligera para la app final
-FROM openjdk:17-jdk-slim
+# Usa una imagen de Java ligera para ejecutar la app
+FROM eclipse-temurin:17-jdk-jammy
 WORKDIR /app
 
-# Copia el JAR generado en la imagen final
+# Copia el .jar generado en la imagen final
 COPY --from=build /app/target/*.jar app.jar
 
 # Expone el puerto 8080 (cambia si usas otro)
 EXPOSE 8080
 
-# Comando para ejecutar la aplicación
+# Comando de inicio
 CMD ["java", "-jar", "app.jar"]
