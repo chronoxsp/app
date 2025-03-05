@@ -12,10 +12,13 @@ RUN mvn clean package -DskipTests
 FROM tomcat:9.0.71-jdk17
 WORKDIR /usr/local/tomcat/webapps/
 
-# Copiar el WAR y renombrarlo a ROOT.war
-COPY --from=build /app/target/*.war ROOT.war
+# Copiar el WAR generado y renombrarlo a ROOT.war
+COPY --from=build /app/target/app-1.0.0.war ROOT.war
 
-# Exponer el puerto 8080
+# Configurar Tomcat para usar la variable de Render
+ENV CATALINA_OPTS="-Dserver.port=${PORT}"
+
+# Expone el puerto 8080 para Render
 EXPOSE 8080
 
 # Iniciar Tomcat
