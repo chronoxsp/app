@@ -12,7 +12,7 @@ RUN mvn clean package -DskipTests
 FROM tomcat:9.0.71-jdk17
 WORKDIR /usr/local/tomcat/webapps/
 
-# Copiar el WAR desde la etapa de construcción
+# Copiar el WAR y renombrarlo a ROOT.war
 COPY --from=build /app/target/*.war ROOT.war
 
 # Exponer el puerto 8080
