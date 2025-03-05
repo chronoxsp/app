@@ -95,10 +95,7 @@
         <!-- Plugin de Spring Boot -->
         <plugin>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-maven-plugin</artifactId>
-            <configuration>
-                <skip>true</skip> <!-- No usamos el main de Spring Boot al desplegar en Tomcat -->
-            </configuration>
+            <artifactId>spring-boot-maven-plugin</artifactId>            
         </plugin>
     </plugins>
 </build>
