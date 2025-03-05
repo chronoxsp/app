@@ -13,13 +13,16 @@ FROM tomcat:9.0.71-jdk17
 WORKDIR /usr/local/tomcat/webapps/
 
 # Eliminar cualquier despliegue anterior en Tomcat
-RUN rm -rf ROOT*
+RUN rm -rf ROOT* && mkdir ROOT
 
-# Copiar el WAR generado y renombrarlo a ROOT.war para servirlo en "/"
+# Copiar el WAR generado
 COPY --from=build /app/target/app-1.0.0.war ROOT.war
 
-# Mostrar los archivos en /webapps para debug
-RUN ls -l /usr/local/tomcat/webapps/
+# Extraer manualmente el WAR (para evitar problemas de despliegue automático)
+RUN unzip ROOT.war -d ROOT && rm ROOT.war
+
+# Mostrar los archivos en /webapps/ROOT para depuración
+RUN ls -l /usr/local/tomcat/webapps/ROOT/
 
 # Configurar Tomcat Manager para depuración (Opcional)
 RUN echo '<tomcat-users>' > /usr/local/tomcat/conf/tomcat-users.xml && \
@@ -29,7 +32,7 @@ RUN echo '<tomcat-users>' > /usr/local/tomcat/conf/tomcat-users.xml && \
 # Exponer el puerto 8080 para Render
 EXPOSE 8080
 
-# Forzar Tomcat a usar la variable de puerto de Render
+# Configurar Tomcat para usar la variable de Render
 ENV CATALINA_OPTS="-Dserver.port=${PORT}"
 
 # Iniciar Tomcat
