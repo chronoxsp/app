@@ -23,11 +23,24 @@
     <java.version>17</java.version>
   </properties>
 
-  <dependencies>
-    <!-- Spring Boot Web (Para APIs y Servidor Tomcat) -->
+ <dependencies>
+    <!-- Spring Boot Starter Web (sin el Tomcat embebido) -->
     <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-web</artifactId>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-web</artifactId>
+        <exclusions>
+            <exclusion>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-tomcat</artifactId>
+            </exclusion>
+        </exclusions>
+    </dependency>
+
+    <!-- Spring Boot Starter Tomcat (para WAR) -->
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-tomcat</artifactId>
+        <scope>provided</scope>
     </dependency>
     <!-- Spring Data JPA para trabajar con bases de datos -->
 <dependency>
