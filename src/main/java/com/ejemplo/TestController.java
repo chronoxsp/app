@@ -8,6 +8,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class TestController {
     @GetMapping("/hello")
     public String sayHello() {
-        return "¡Hola desde Render!";
+        return "¡Hola desde Render2!";
     }
 }
