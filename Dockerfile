@@ -21,22 +21,19 @@ RUN rm -rf ROOT* && mkdir ROOT
 # Copiar el WAR generado
 COPY --from=build /app/target/app-1.0.0.war ROOT.war
 
-# Extraer manualmente el WAR (para evitar problemas de despliegue automático)
+# Extraer manualmente el WAR
 RUN unzip ROOT.war -d ROOT && rm ROOT.war
 
 # Mostrar los archivos en /webapps/ROOT para depuración
 RUN ls -l /usr/local/tomcat/webapps/ROOT/
 
-# Configurar Tomcat Manager para depuración (Opcional)
+# Configurar Tomcat Manager (Opcional)
 RUN echo '<tomcat-users>' > /usr/local/tomcat/conf/tomcat-users.xml && \
     echo '  <user username="admin" password="admin" roles="manager-gui"/>' >> /usr/local/tomcat/conf/tomcat-users.xml && \
     echo '</tomcat-users>' >> /usr/local/tomcat/conf/tomcat-users.xml
 
-# Exponer el puerto 8080 para Render
+# Exponer el puerto 8080
 EXPOSE 8080
-
-# Configurar Tomcat para usar la variable de Render
-ENV CATALINA_OPTS="-Dserver.port=${PORT}"
 
 # Iniciar Tomcat
 CMD ["catalina.sh", "run"]

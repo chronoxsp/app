@@ -74,14 +74,14 @@
 
   <build>
     <plugins>
-        <!-- Plugin para empaquetar un WAR -->
+        <!-- Plugin de WAR (sin ejecutable) -->
         <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-war-plugin</artifactId>
             <version>3.3.2</version>
         </plugin>
 
-        <!-- Plugin de compilación actualizado -->
+        <!-- Compilador -->
         <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-compiler-plugin</artifactId>
@@ -92,11 +92,22 @@
             </configuration>
         </plugin>
 
-        <!-- Plugin de Spring Boot -->
+        <!-- Plugin de Spring Boot (deshabilitar ejecutable) -->
         <plugin>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-maven-plugin</artifactId>            
+            <artifactId>spring-boot-maven-plugin</artifactId>
+            <executions>
+                <execution>
+                    <goals>
+                        <goal>repackage</goal>
+                    </goals>
+                    <configuration>
+                        <classifier>exec</classifier>
+                    </configuration>
+                </execution>
+            </executions>
         </plugin>
     </plugins>
 </build>
+
 </project>
