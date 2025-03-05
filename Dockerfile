@@ -1,22 +1,11 @@
-# Usa una imagen de Maven con Java 17
-FROM maven:3.9.4-eclipse-temurin-17 AS build
-WORKDIR /app
+# Usa una imagen oficial de Tomcat con Java 17
+FROM tomcat:9.0.71-jdk17
 
-# Copia los archivos del proyecto
-COPY . .
+# Copia el WAR generado en la carpeta de despliegue de Tomcat
+COPY target/*.war /usr/local/tomcat/webapps/ROOT.war
 
-# Compila la aplicación
-RUN mvn clean package -DskipTests
-
-# Usa una imagen de Java ligera para ejecutar la app
-FROM eclipse-temurin:17-jdk-jammy
-WORKDIR /app
-
-# Copia el .jar generado en la imagen final
-COPY --from=build /app/target/*.jar app.jar
-
-# Expone el puerto 8080 (cambia si usas otro)
+# Expone el puerto 8080
 EXPOSE 8080
 
-# Comando de inicio
-CMD ["java", "-jar", "app.jar"]
+# Inicia Tomcat
+CMD ["catalina.sh", "run"]
