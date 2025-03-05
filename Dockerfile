@@ -12,6 +12,9 @@ RUN mvn clean package -DskipTests
 FROM tomcat:9.0.71-jdk17
 WORKDIR /usr/local/tomcat/webapps/
 
+# Instalar unzip (para extraer manualmente el WAR)
+RUN apt-get update && apt-get install -y unzip
+
 # Eliminar cualquier despliegue anterior en Tomcat
 RUN rm -rf ROOT* && mkdir ROOT
 
